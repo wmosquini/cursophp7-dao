@@ -46,6 +46,37 @@ class Usuario {
             $this->setDtcadastro(new DateTime ($row['dtcadastro']));
         }
     }
+
+    //como não temos referencia ($this), podemos deixar como static
+    public static function getList(){
+        $sql = new Sql();
+        return $sql->select("select * from tb_usuario");
+    }
+    public static function search($login){
+        $sql = new Sql();
+        return $sql->select("select * from tb_usuario where deslogin like :SEARCH", array(
+            ':SEARCH'=>"%".$login."%"
+        ));
+    }
+    public function login ($login, $senha) {
+        $sql = new Sql();
+
+        $results = $sql->select("select * from tb_usuario where deslogin = :LOGIN and dessenha = :SENHA", array(
+            ":LOGIN"=>$login,
+            ":SENHA" =>$senha
+        ));
+
+        if (isset($results[0])){
+            $row = $results[0];
+            $this->setIdusuario($row['idusuario']);
+            $this->setDeslogin($row['dessenha']);
+            $this->setDessenha($row['dessenha']);
+            $this->setDtcadastro(new DateTime ($row['dtcadastro']));
+        } else {
+            throw new Exception("Login e/ou senha inválidos");
+        }
+    }
+
     public function __toString(){
         return json_encode(array(
             "idusuario"=>$this->getIdusuario(),
