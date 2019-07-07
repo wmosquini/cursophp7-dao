@@ -30,11 +30,16 @@ require_once("config.php");
 
 //inserir um novo usuário
 
+// $usuario = new Usuario();
+// $usuario->loadById(3);
+// $usuario->update("vivo", "ahhaha");
+// echo $usuario;
+
+//deletar dados do banco
 $usuario = new Usuario();
 $usuario->loadById(3);
-$usuario->update("vivo", "ahhaha");
+$usuario->delete();
 echo $usuario;
-
 
 
 ?>
